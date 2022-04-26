@@ -90,7 +90,7 @@
                   zagolovok: "X,%",
                   background_color:"#FFFFFF",
                   lines_color: "#B0B0B0",
-                  strelki_color:"#606060",
+                  strelki_color:"#f54425",
                   text_color:"#444444",
                   graph_color:"black",
                   ramka_color: [{"color": "#84c272",
@@ -106,7 +106,7 @@
                 var I={data:50};	
                 var tm=new Date();		
                 function new_t(){
-                  I.data+=((Math.random()-0.5)*10);
+                  I.data+=((Math.random()-0.5)*20);
                   tm.setTime(tm.getTime()+stepTime);		
                   I.DateTime=tm;
                   if(graf.view!==undefined){
