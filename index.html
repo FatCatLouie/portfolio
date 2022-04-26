@@ -2,11 +2,13 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600&display=swap" rel="stylesheet">
     <title>Портфолио студента МФ МГТУ</title>
+    <script type="text/javascript" src="projects/pribor.js"></script>
   </head>
 
   <body>
@@ -20,7 +22,7 @@
     <section class="hero-image">
       <div class="container">
         <h1 class="heading">Першина Полина</h1>
-        <p>Студент МФ МГТУ, инженер-программист в "Гаммамед"</p>
+        <p>Студент МФ&nbsp;МГТУ, инженер-программист в&nbsp;&laquo;Гаммамед&raquo;</p>
       </div>
     </section>
 
@@ -50,9 +52,13 @@
           <h3>Мои навыки</h3>
           <dl class="skills-list">
             <dt class="skill-html">HTML</dt>
-            <dd class="level"><div style="width: 60%;">60%</div></dd>
+            <dd class="level"><div style="width: 25%;">25%</div></dd>
             <dt class="skill-css">CSS</dt>
-            <dd class="level"><div style="width: 40%;">40%</div></dd>
+            <dd class="level"><div style="width: 15%;">15%</div></dd>
+            <dt class="skill-cpp">C++</dt>
+            <dd class="level"><div style="width: 50%;">50%</div></dd>
+            <dt class="skill-python">Python</dt>
+            <dd class="level"><div style="width: 50%;">50%</div></dd>
           </dl>
         </div>
       </div>
@@ -61,8 +67,54 @@
     <section class="portfolio">
       <div class="container">
         <h2 class="subheading">Мои работы</h2>
-          <figure class="project-image">
-            <img src="files/project.jpg" width="928" height="536" alt="Cайт магазина товаров для дома">
+          <figure class="project">
+            <object type="image/svg+xml" data="projects/running_graph.svg" id="str" width="1024" height="1024" ></object>
+            <script>
+              var stepTime=200;
+              var graf={
+                params:{	
+                  max:100,  //точное значение
+                  min:0,  //примерное значение
+                  stepT:stepTime,
+                  ramka_width:0.005,
+                  ramka_angles:0.03,
+                  gorLineCnt:10,  //количество промежутков между горизонтальными линиями
+                  vert_space_up:0.2,
+                  vert_space_down:0.25,
+                  gor_space:0.1,
+                  stroke_width: 0.003,
+                  graph_stroke_width: 0.004,
+                  radius:2.5,  //от graph_stroke_width
+                  cnt_po_x:10,  //количество точек времени на горизонтальной оси
+                  b_window:[600,500],
+                  zagolovok: "X,%",
+                  background_color:"#FFFFFF",
+                  lines_color: "#B0B0B0",
+                  strelki_color:"#606060",
+                  text_color:"#444444",
+                  graph_color:"black",
+                  ramka_color: [{"color": "#84c272",
+                        "offset": "0%"},
+                        {"color": "#c1f0b4",
+                        "offset": "75%"},
+                        {"color": "84c272",
+                        "offset": "100%"}],
+                  date_format: {"day":0,"month":0,"year": 0,"hour":0,"minute":0,"second":1,"millisecond":1}
+                }
+              };
+              initPribor("str",graf);
+                var I={data:50};	
+                var tm=new Date();		
+                function new_t(){
+                  I.data+=((Math.random()-0.5)*10);
+                  tm.setTime(tm.getTime()+stepTime);		
+                  I.DateTime=tm;
+                  if(graf.view!==undefined){
+                    graf.view.work(I);			
+                  }
+                }
+              setInterval("new_t()", stepTime);
+              </script>
           </figure>
         <h3>Магазин товаров для дома </h3>
         <p>Мой первый сайт.</p>

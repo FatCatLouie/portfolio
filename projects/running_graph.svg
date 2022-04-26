@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg  style="background-color: white"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ viewBox="0 0 512 512"  id="box"
+ preserveAspectRatio="xMinYMin meet">
+ <script type="text/javascript">
+ 
+ <![CDATA[
+	var _NS="http://www.w3.org/2000/svg";
+	var width="492";
+	var height="400";
+	var max=0;
+	var min=0;
+	var gorLineCnt; //кол-во гор линий
+	var vert_space_up;
+	var vert_space_down;
+	var gor_space;
+	var mas_data=[];
+	var mas_time=[];	
+	var cnt_po_x=0;
+	var coeff_x=0;//для построение графика
+	var x;
+	var radius;
+	var graph_color;
+	var date_format;
+	
+	function init(params){
+		var windiw=document.getElementById("box");
+		width=params.b_window[0];
+		height=params.b_window[1];
+		windiw.setAttribute("viewBox","0 0 "+width+" "+height);
+		
+		max=params.max;
+		min=params.min;
+		cnt_po_x=params.cnt_po_x;
+		gorLineCnt=params.gorLineCnt;
+		vert_space_up=params.vert_space_up*height;
+		vert_space_down=params.vert_space_down*height;
+		gor_space=params.gor_space*width;
+		var stroke_width=params.stroke_width*Math.min(width,height);
+		var graph_stroke_width = params.graph_stroke_width*Math.min(width,height);
+		radius = params.radius*graph_stroke_width;
+		graph_color=params.graph_color;
+		date_format=params.date_format;
+		
+		coeff_x=(width-gor_space*2)/(cnt_po_x-1);
+		var shir=(height-vert_space_up-vert_space_down)/gorLineCnt;
+		var round = Math.min(width,height)*params.ramka_angles;
+		var otstup=Math.min(width,height)*params.ramka_width;
+		var razn =Math.round((max-min)/(gorLineCnt));
+		
+		var gor_lines = document.getElementById("gor_lines_");
+		var vert_lines = document.getElementById("vert_lines_");
+		var background = document.getElementById("background_");
+		var ramka=document.getElementById("ramka_");
+		var frameColor=this.document.getElementById("linear-gradient");
+		var border=document.getElementById("border");
+		var znach_y=document.getElementById("znach_y_");
+		var znach_x=document.getElementById("znach_x_");
+		var zagolovok=document.getElementById("zagolovok_");
+		var tochka=document.getElementById("tochka_");
+		var str_ud=document.getElementById("str_ud_");
+		var graf=document.getElementById("graf_");
+
+		
+		gor_lines.setAttribute("stroke", params.lines_color);
+		gor_lines.setAttribute ("stroke-width",stroke_width);
+		gor_lines.setAttribute ("d","M "+gor_space+","+vert_space_up+"L "+(width-gor_space)+","+vert_space_up);
+		for(var i=vert_space_up+shir;i<=height-vert_space_down;i+=shir){
+			gor_lines.setAttribute ("d",gor_lines.getAttribute("d")+" M "+gor_space+","+i+
+			"L "+(width-gor_space)+","+i);
+		}
+		
+		vert_lines.setAttribute("stroke", params.lines_color);
+		vert_lines.setAttribute ("stroke-width",stroke_width);
+		vert_lines.setAttribute ("d","M "+gor_space+","+vert_space_up+"L "+gor_space+","+(height-vert_space_down))
+		for(var i=gor_space+coeff_x;Math.round(i)<=width-gor_space;i+=coeff_x){
+			vert_lines.setAttribute ("d",vert_lines.getAttribute("d")+" M "+i+","+vert_space_up+
+			"L "+i+","+(height-vert_space_down));
+		}
+		
+		background.setAttribute("fill", params.background_color);
+		background.setAttribute("d","M "+otstup+","+(otstup+round)+" A "+round+","+round+" 0,0,1 "+(round+otstup)+","+otstup+" L"+(width-otstup-round)+
+			","+otstup+" A "+round+","+round+" 0,0,1 "+(width-otstup)+","+(round+otstup)+" L"+(width-otstup)+","+
+			(height-otstup-round)+"A "+round+","+round+" 0,0,1 "+(width-otstup-round)+","+(height-otstup)+"L "+(round+otstup)
+			+","+(height-otstup)+"A "+round+","+round+" 0,0,1 "+otstup+","+(height-otstup-round)+"L "+otstup+","+round);
+		
+		for (var i=0, length=params.ramka_color.length;i<length;i++){
+			var stop = document.createElementNS(_NS, "stop");
+			stop.setAttribute('offset', params.ramka_color[i].offset);
+			stop.setAttribute('stop-color', params.ramka_color[i].color);
+			frameColor.appendChild(stop);
+		}
+		
+		border.setAttribute("width",width);
+		border.setAttribute("height",height);
+		
+		znach_y.setAttribute("fill", params.text_color);
+		var j=0;
+		for(var i=vert_space_up;i<=height-vert_space_down;i+=shir){
+			var temp_znach=document.createElementNS(_NS,"tspan");	
+			temp_znach.setAttribute("font-size",shir);			
+			temp_znach.setAttribute("x", width-gor_space+radius+width*0.001);		
+			temp_znach.setAttribute("y",i+shir*0.3);	
+			znach_y.appendChild(temp_znach);
+			var ttext=this.document.createTextNode(Number(max-j*razn));
+			temp_znach.appendChild(ttext);
+			min=max-j*razn;
+			j++;
+		}
+		
+		znach_x.setAttribute("fill", params.text_color);
+		
+		zagolovok.setAttribute("fill", params.text_color);
+		var temp_znach=document.createElementNS(_NS,"tspan");
+		temp_znach.setAttribute("x", width/2);		
+		temp_znach.setAttribute("y",vert_space_up*0.7);
+		zagolovok.appendChild(temp_znach);
+		var ttext=this.document.createTextNode(params.zagolovok);
+		temp_znach.appendChild(ttext);
+		var i=0.7;
+		temp_znach.setAttribute("font-size",vert_space_up*i);
+		while((temp_znach.getComputedTextLength())>=width){
+			i-=0.005;
+			temp_znach.setAttribute("font-size",vert_space_up*i);
+		}
+		
+		str_ud.setAttribute("fill", params.strelki_color);
+		
+		graf.setAttribute("stroke", params.graph_color);
+		graf.setAttribute("stroke-width", graph_stroke_width);
+		
+		create_plot(cnt_po_x);
+		var new_tochka=document.getElementById("tochka"+cnt_po_x);
+		new_tochka.setAttribute("cx",-10);
+		new_tochka.setAttribute("cy",-10);
+		tochka.appendChild(new_tochka);
+	}
+
+function create_plot(id){
+	var tochka=document.getElementById("tochka_");
+	var new_tochka=document.createElementNS(_NS,"circle");
+	new_tochka.setAttribute("fill",graph_color);
+	new_tochka.setAttribute("stroke","none");
+	new_tochka.setAttribute("r",radius);
+	new_tochka.setAttribute("id","tochka"+id);
+	tochka.appendChild(new_tochka);
+}
+
+function create_str(text,id,x,y){
+	var temp_str_up=document.createElementNS(_NS,"tspan");
+	var str_ud=document.getElementById("str_ud_");
+	temp_str_up.setAttribute("id",id);
+	str_ud.appendChild(temp_str_up);
+	temp_str_up.setAttribute("x",x);
+	if(text=="↓")y=y-height*0.015
+	temp_str_up.setAttribute("y",y);
+	temp_str_up.setAttribute("font-size",height*0.07);
+	var ttext=this.document.createTextNode(text);
+	temp_str_up.appendChild(ttext);
+}
+
+function create_text(text,id,x){
+	var temp_znach_x=this.document.createElementNS(_NS,"tspan");
+	var znach_x=document.getElementById("znach_x_");
+	temp_znach_x.setAttribute("id",id);
+	znach_x.appendChild(temp_znach_x);
+	temp_znach_x.setAttribute("x",-(height-vert_space_down/2));	
+	temp_znach_x.setAttribute("y",x);
+	var ttext=this.document.createTextNode(text);
+	temp_znach_x.appendChild(ttext);
+	var i=0.06;
+	temp_znach_x.setAttribute("font-size",height*i);
+	while((temp_znach_x.getComputedTextLength())>=vert_space_down){
+		i-=0.005;
+		temp_znach_x.setAttribute("font-size",height*i);
+	}
+}
+
+function work(data){
+
+	function get_y(i){
+		y=vert_space_up+((max-mas_data[i])*(height-vert_space_up-vert_space_down)/(max-min));
+		if(y<vert_space_up) {
+			y=vert_space_up;
+			var try_up = document.getElementById("up"+i);
+			if(try_up==null) create_str("↑", ("up"+i),x,y);
+			else try_up.setAttribute("x",x);
+		}
+		else{
+			var try_up = document.getElementById("up"+i);
+			if(try_up!=null) {
+				var str_ud=document.getElementById("str_ud_");
+				str_ud.removeChild(try_up);
+			}
+		}
+		if(y>height-vert_space_down){
+			y=height-vert_space_down;
+			var try_down = document.getElementById("down"+i);
+			if(try_down==null) create_str("↓", ("down"+i),x,y);
+			else try_down.setAttribute("x",x);
+		}
+		else{
+			var try_down = document.getElementById("down"+i);
+			if(try_down!=null) {
+				var str_ud=document.getElementById("str_ud_");
+				str_ud.removeChild(try_down);
+			}
+		}
+		tchk=document.getElementById("tochka"+(i+1));
+		tchk.setAttribute("cx",x);
+		tchk.setAttribute("cy",y);
+		cur_data=document.getElementById("tochka"+(i+1));
+		cur_data.setAttribute("cx",x);
+		cur_data.setAttribute("cy",y);
+		}
+	
+	var DT=new Date();
+	var date_txt="";
+	if(date_format.day==1)date_txt=DT.getDate();
+	if(date_format.month==1){
+		if(date_format.day==1)date_txt=date_txt+".";
+		if (DT.getMonth()<10)date_txt=date_txt+"0";
+		date_txt=date_txt+DT.getMonth();
+	}
+	if(date_format.year==1){
+		if(date_format.month==1||date_format.day==1)date_txt=date_txt+".";
+		date_txt=date_txt+(DT.getFullYear());
+	}
+	if (date_txt.length!=0 && (date_format.hour==1||date_format.minute==1||date_format.second==1||date_format.millisecond==1))date_txt=date_txt+" ";
+	if(date_format.hour==1){
+		date_txt=date_txt+DT.getHours();
+	}
+	if(date_format.minute==1){
+		if (date_format.hour==1)date_txt=date_txt+":";
+		if(DT.getMinutes()<10)date_txt=date_txt+"0";
+		date_txt=date_txt+DT.getMinutes();
+	}
+	if(date_format.second==1){
+		if (date_format.minute==1)date_txt=date_txt+":";
+		if(DT.getSeconds()<10)date_txt=date_txt+"0";
+		date_txt=date_txt+DT.getSeconds();
+	}
+	if(date_format.millisecond==1){
+		if (date_format.second==1||date_format.minute==1||date_format.hour==1)date_txt=date_txt+":";
+		if(DT.getMilliseconds()<10)date_txt=date_txt+"0";
+		if(DT.getMilliseconds()<100)date_txt=date_txt+"0";
+		date_txt=date_txt+DT.getMilliseconds();
+	}
+	var graf=document.getElementById("graf_");
+	var i,y,k,YA,XA,YB,YC,XC,DX,XB1,YB1,XB2,YB2;
+	var tchk;
+	x=gor_space;
+	mas_data.push(data.data);
+	mas_time.push(date_txt);
+	if(mas_data.length==cnt_po_x+1) {
+		mas_data.shift();
+		mas_time.shift();
+	}
+	var znach_x=document.getElementById("znach_x_");
+	for(i=0;i<mas_time.length;i++){
+		znach = document.getElementById("text"+i);
+		if (znach!=null) znach_x.removeChild(znach);
+	}
+	if(mas_data.length>0){
+		if(mas_data.length<cnt_po_x){
+			x+=coeff_x*(cnt_po_x - mas_data.length);
+			create_plot(mas_data.length);
+		}
+		var x_copy=x;
+		for(i=0;i<mas_time.length;i++){
+			create_text(mas_time[i],("text"+i),x_copy);
+			x_copy+=coeff_x;
+		}
+		var d = document.getElementById("x0");
+		get_y(0);
+		graf.setAttribute("d","M "+x+","+y);
+		YB=y;
+		x+=coeff_x;
+		if(mas_data.length>1){
+			get_y(1);
+			if(mas_data.length==2){
+				graf.setAttribute("d",graf.getAttribute("d")+" L "+x+","+y);
+			}
+			else{
+				YA=y;
+				XA=x;
+				x+=coeff_x;
+				for(i=2;i<mas_data.length;i++){
+					get_y(i);
+					YC=y;
+					XC=x;
+					if(YC!=YB){
+						k=(Math.sqrt((Math.pow(YA-YB,2)+Math.pow(coeff_x,2))*(Math.pow(YA-YC,2)+Math.pow(coeff_x,2)))-Math.pow(coeff_x,2)-(YA-YB)*(YA-YC)) / (coeff_x*(YC-YB));
+						DX = coeff_x/2*Math.sqrt(1/(1+Math.pow(k,2)));
+						XB1=XA-DX;
+						YB1=YA-k*DX;
+						XC1=XA+DX;
+						YC1=YA+k*DX;
+					}
+					else{
+						XB1=XA-coeff_x/2;
+						YB1=YA;
+						XC1=XA+coeff_x/2;
+						YC1=YA;
+					}
+					if(i==2){
+						graf.setAttribute("d",graf.getAttribute("d")+" C "+XB1+","+YB1+" "+XB1+
+						","+YB1+" "+XA+","+YA+" M "+XA+","+YA);
+						graf.setAttribute("d",graf.getAttribute("d")+" C "+XC1+","+YC1+" ");
+					}
+					else{
+						graf.setAttribute("d",graf.getAttribute("d")+XB1+","+YB1+" "+XA+","+YA+
+						" M "+XA+","+YA);
+						graf.setAttribute("d",graf.getAttribute("d")+" C "+XC1+","+YC1+" ");
+					}
+					if(i==mas_data.length-1){
+						graf.setAttribute("d",graf.getAttribute("d")+XC1+","+YC1+" "+XC+","+YC);
+					}
+					YB=YA;
+					YA=YC;
+					XA=XC;
+					x+=coeff_x;
+				}
+			}	
+		}
+	}		
+}
+	
+]]>
+ </script>  
+ <linearGradient id="linear-gradient"> </linearGradient>
+ <rect id="border" fill="url(#linear-gradient)"/>
+ <path id="background_"/>
+ <path id="gor_lines_"/>
+ <path id="vert_lines_"/>
+ <path id="ramka_"/>
+ <text id="str_ud_" text-anchor="middle" font-family="'Calibri Light',normal" > </text>
+ <text id="zagolovok_" text-anchor="middle" font-family="'Calibri Light',normal" > </text>
+ <text id="znach_y_" font-family="'Calibri Light',normal" > </text>
+ <text id="znach_x_" transform="rotate(-90)" text-anchor="middle" font-family="'Calibri Light',normal" > </text>
+ <path id="graf_" fill="none"/>
+ <g id="tochka_" />
+</svg>	
