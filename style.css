@@ -39,12 +39,6 @@ body {
 }
 
 
-
-img {
-  max-width: 100%;
-  max-height: auto;
-}
-
 .header-email {
   padding-left: 30px;
   background-image: url("img/icon-email.svg");
@@ -211,7 +205,7 @@ img {
   white-space:nowrap;
 }
 
-object{
+img, object, iframe{
   width: 100%;
   height: auto;
 }
