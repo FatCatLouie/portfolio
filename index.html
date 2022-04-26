@@ -67,8 +67,10 @@
     <section class="portfolio">
       <div class="container">
         <h2 class="subheading">Мои работы</h2>
-          <figure class="project">
-            <object type="image/svg+xml" data="projects/running_graph.svg" id="str" class="running_graf" ></object>
+        <h3>Курсовая работа по СПО</h3>
+        <p>Потомки этих графиков сейчас работают на экрене возле кафедры.</p>
+          <figure>
+            <object type="image/svg+xml" data="projects/running_graph.svg" id="str"></object>
             <script>
               var stepTime=500;
               var graf={
@@ -87,7 +89,7 @@
                   radius:2.5,  //от graph_stroke_width
                   cnt_po_x:10,  //количество точек времени на горизонтальной оси
                   b_window:[600,500],
-                  zagolovok: "X,%",
+                  zagolovok: "Заголовок",
                   background_color:"#FFFFFF",
                   lines_color: "#B0B0B0",
                   strelki_color:"#f54425",
@@ -106,7 +108,7 @@
                 var I={data:50};	
                 var tm=new Date();		
                 function new_t(){
-                  I.data+=((Math.random()-0.5)*30);
+                  I.data+=((Math.random()-0.5)*20);
                   tm.setTime(tm.getTime()+stepTime);		
                   I.DateTime=tm;
                   if(graf.view!==undefined){
@@ -114,13 +116,93 @@
                   }
                 }
               setInterval("new_t()", stepTime);
+            </script>
+          </figure>
+          <figure>
+            <object type="image/svg+xml" data="projects/bar_chart.svg" id="Bar_chart"></object>
+            <script>
+            var stepTime=500;
+            var bar_chart={
+              params:{	
+                zagolovok:"Заголовок",
+                colors: ["#f54425","#f099e1","#a2d613","#1b1ede","#674a8a","#75e6e2","#360000","#8800ff","#224021","#f09c35","#d6369b","#0ab2f0"],
+                text_color:"black",
+                stroke_width: 0.04,//доля ширины столбиков
+                ramka_width:0.01,
+                ramka_angles:0.05,
+                signs: ["од.0000000000","1","Текст3","Текст4","Текст5","Текст6","Текст7","Текст8","Текст9","Текст10","Текст11","Текст12"],//важно для количества областей//
+                data_designation:3, //1-в процентах, 2-настоящие значения, 3-без обозначения
+                sign_space:2, //1-справа, 2-снизу
+                b_window:[800,500],
+                stepT:stepTime,
+                stroke_color:"#000000",
+                background_color:"#FFFFFF",
+                ramka : [{"color": "#4b93eb",
+                      "offset": "0%"},
+                      {"color": "#acd0fc",
+                      "offset": "75%"},
+                      {"color": "#4b93eb",
+                      "offset": "100%"}] 
+                }
+
+              };
+            initPribor("Bar_chart",bar_chart);
+              var I={data1:1000,data2:60,data3:70,data4:80,data5:30,data6:50,data7:70,data8:60,data9:70,data10:80,data11:90,data12:50};//
+              var tm=new Date();		
+              function new_t(){
+                I.data1+=(Math.random()*20);I.data2+=(Math.random()*20);I.data3+=(Math.random()*5);I.data4+=(Math.random()*30);I.data5+=(Math.random()*50);I.data6+=(Math.random()*10);I.data7+=(Math.random()*90);I.data8+=(Math.random()*18);I.data9+=(Math.random()*15);I.data10+=(Math.random()*2);I.data11+=(Math.random()*10);I.data12+=(Math.random()*1);
+                tm.setTime(tm.getTime()+stepTime);		
+                I.DateTime=tm;
+                if(bar_chart.view!==undefined){
+                  bar_chart.view.work(I);			
+                }
+              }
+            setInterval("new_t()", stepTime);
+            </script>
+          </figure>
+          <figure>
+              <object type="image/svg+xml" data="projects/pie_chart.svg" id="Pie_chart"></object>
+              <script>
+              var stepTime=500;
+              var pie_chart={
+                params:{	
+                  zagolovok:"Заголовок",
+                  colors: ["#f54425","#f099e1","#a2d613","#1b1ede","#674a8a","#75e6e2","#360000","#8800ff","#224021","#f09c35","#d6369b","#0ab2f0"],
+                  stroke_color: "black",
+                  stroke_width: 0.015,//доля от радиуса круга
+                  ramka_width:0.01,
+                  ramka_angles:0.05,
+                  signs: ["Текст1","Очень длинный Текст2","Текст3","Текст4","Текст5","Текст6","Текст7","Текст8","Текст9","Текст10","Текст11","Текст12"],//важно для количества областей//
+                  sign_space:2, //1-справа, 2-на диаграмме
+                  b_window:[50,50],
+                  stepT:stepTime,
+                  background_color:"#FFFFFF",
+                  ramka : [{"color": "#8446a3",
+                        "offset": "0%"},
+                        {"color": "#c389e0",
+                        "offset": "75%"},
+                        {"color": "#8446a3",
+                        "offset": "100%"}] 
+                  }
+                };
+                console.log("2")
+                initPribor("Pie_chart",pie_chart);
+                var I={data1:100,data2:60,data3:70,data4:80,data5:90,data6:50,data7:100,data8:60,data9:70,data10:80,data11:90,data12:500};//
+                var tm=new Date();		
+                function new_t(){
+                  I.data1+=(Math.random()*20);I.data2+=(Math.random()*20);I.data3+=(Math.random()*5);I.data4+=(Math.random()*30);I.data5+=(Math.random()*50);I.data6+=(Math.random()*10);I.data7+=(Math.random()*90);I.data8+=(Math.random()*18);I.data9+=(Math.random()*15);I.data10+=(Math.random()*2);I.data11+=(Math.random()*10);I.data12+=(Math.random()*1);
+                  tm.setTime(tm.getTime()+stepTime);		
+                  I.DateTime=tm;
+                  if(pie_chart.view!==undefined){
+                    pie_chart.view.work(I);			
+                  }
+                }
+                setInterval("new_t()", stepTime);
               </script>
           </figure>
-        <h3>Магазин товаров для дома </h3>
-        <p>Мой первый сайт.</p>
-
         <h3>Программа для сложения десятичных чисел на машине Тьюринга </h3>
         <p>Такого не найти в интернете.</p>
+        <iframe src="projects/turing.txt"></iframe>
       </div>
      </section>
 

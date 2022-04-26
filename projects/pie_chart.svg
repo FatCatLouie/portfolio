@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg  style="background-color: white"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ viewBox="0 0 100 100"  id="box"
+ preserveAspectRatio="xMinYMin meet">
+ <script type="text/javascript">
+ 
+ <![CDATA[
+ 
+	var _NS="http://www.w3.org/2000/svg";
+	var width="100"; // рабочий размер
+	var height="100";
+	var data_quantity=0;
+	var background;
+	var colors;
+	var radius;
+	var XC,YC;
+	var stroke_width;
+	var stroke_color;
+	var sign_space;
+	var signs;
+	var round;
+	var otstup;
+	
+	
+ function init(params){
+	var windiw=document.getElementById("box");
+	width=params.b_window[0];
+	height=params.b_window[1];
+	windiw.setAttribute("viewBox","0 0 "+width+" "+height);
+	
+	signs=params.signs;
+	sign_space=params.sign_space;
+	stroke_color=params.stroke_color;
+	round = Math.min(width,height)*params.ramka_angles;
+	otstup=Math.min(width,height)*params.ramka_width;
+	data_quantity=params.signs.length;
+	colors=params.colors;
+	
+	if(sign_space==1){
+		radius=(Math.min(width,height)*0.6)/2;
+		XC=radius+width*0.05;
+	}
+	else {
+		radius=(Math.min(width,height)*0.4)/2;
+		XC=width/2;
+	}
+	stroke_width=params.stroke_width*radius;
+	YC=height*0.55;
+	
+	var frameColor=this.document.getElementById("linear-gradient");
+	var border=document.getElementById("border");
+	background = document.getElementById("background_");
+	background.setAttribute("fill", params.background_color);
+	background.setAttribute("d","M "+otstup+","+(otstup+round)+" A "+round+","+round+" 0,0,1 "+(round+otstup)+","+otstup+" L"+(width-otstup-round)+
+			","+otstup+" A "+round+","+round+" 0,0,1 "+(width-otstup)+","+(round+otstup)+" L"+(width-otstup)+","+
+			(height-otstup-round)+"A "+round+","+round+" 0,0,1 "+(width-otstup-round)+","+(height-otstup)+"L "+(round+otstup)
+			+","+(height-otstup)+"A "+round+","+round+" 0,0,1 "+otstup+","+(height-otstup-round)+"L "+otstup+","+round);
+	for (var i=0, length=params.ramka.length;i<length;i++){
+		var stop = document.createElementNS(_NS, "stop");
+		stop.setAttribute('offset', params.ramka[i].offset);
+		stop.setAttribute('stop-color', params.ramka[i].color);
+		frameColor.appendChild(stop);
+	}	
+	border.setAttribute("width",width);
+	border.setAttribute("height",height);
+	
+	var circle=document.getElementById("circle_");
+	circle.setAttribute("fill", colors[data_quantity-1]);
+	circle.setAttribute("cx",XC);
+	circle.setAttribute("cy",YC);
+	
+	var stroke=document.getElementById("stroke_");
+	stroke.setAttribute("stroke", stroke_color);
+	stroke.setAttribute("cx",XC);
+	stroke.setAttribute("cy",YC);
+	circle.setAttribute("r",radius);
+	stroke.setAttribute("r",radius);
+	stroke.setAttribute("stroke-width", stroke_width);
+	
+	var Y_def=height*0.85/data_quantity;
+	var storona=Y_def*0.9;
+	var Y0=height*0.1+Y_def*0.1;
+	if (storona>0.05*height) {
+		storona=0.05*height;
+		if(Y_def-storona>0.05*height)Y0=height*0.1+0.05*height;
+		else Y0=height*0.1+(Y_def-storona);
+	}
+	if(Y_def>=0.3*height)Y_def=0.2*height;
+	if(sign_space==1){
+		var signs1=document.getElementById("signs_");
+		for (var G=0;G<data_quantity;G++){
+			var square = document.createElementNS(_NS, "rect");
+			square.setAttribute("fill",colors[G]);
+			square.setAttribute("stroke", stroke_color);
+			square.setAttribute("stroke-width", storona*0.05);
+			square.setAttribute("width", storona);
+			square.setAttribute("height",  storona);
+			square.setAttribute("x", width*0.1+2*radius);
+			square.setAttribute("y", Y0);
+			signs1.appendChild(square);
+			create_text(signs[G],(width*0.1+2*radius+height*0.05+width*0.005),(Y0+height*0.05),0,0)
+			Y0+=Y_def;
+		}
+	}
+	var temp=this.document.createElementNS(_NS,"tspan");
+	var txt=document.getElementById("txt_");
+	txt.appendChild(temp);
+	var ttext=this.document.createTextNode(params.zagolovok);
+	temp.appendChild(ttext);
+	temp.setAttribute("text-anchor","middle");
+	temp.setAttribute("x",width/2);
+	temp.setAttribute("y",height*0.095);
+	i=0.09;
+	temp.setAttribute("font-size",height*i);
+	while(temp.getComputedTextLength()>=width-otstup){
+			i-=0.005;
+			temp.setAttribute("font-size",height*i);
+		}
+ }
+ 
+ function create_text(text,x,y,carryover,id){
+	var temp=this.document.createElementNS(_NS,"tspan");
+	temp.setAttribute("id",id);
+	var txt=document.getElementById("txt_");
+	txt.appendChild(temp);
+	var ttext=this.document.createTextNode(text);
+	temp.appendChild(ttext);
+	temp.setAttribute("y",y);
+	var i=0.06;
+	temp.setAttribute("font-size",height*i);
+	if(carryover==1){
+		temp.setAttribute("x",x-(temp.getComputedTextLength()));
+		while((x-temp.getComputedTextLength())<=otstup){
+			i-=0.005;
+			temp.setAttribute("font-size",height*i);
+			temp.setAttribute("x",x-(temp.getComputedTextLength()));
+		}
+	}
+	else{
+		temp.setAttribute("x",x);
+		while(temp.getComputedTextLength()+x>=width-otstup){
+			i-=0.005;
+			temp.setAttribute("font-size",height*i);
+		}
+	}
+	return (temp.getComputedTextLength());
+}
+ 
+ function work(data){
+	var mas_angles=[];
+	var mas_angles_sign=[];
+	var i,s=0;
+	for(i=0;i<data_quantity;i++){
+		s+=data["data"+(i+1)];
+	}
+	mas_angles[0]=(data["data"+1])/s*360;
+	mas_angles_sign[0]=mas_angles[0]/2;
+	for(i=1;i<data_quantity;i++){
+		mas_angles[i]=mas_angles[i-1]+((data["data"+(i+1)])/s*360);
+		mas_angles_sign[i]=mas_angles[i-1]+((data["data"+(i+1)])/s*360/2);
+	}
+	var pie=document.getElementById("pie_");
+	var X1,Y1,X2,Y2;
+	X1=XC+radius;
+	Y1 = YC;
+	for (var G=data_quantity-1;G>=0;G--){
+		X2=XC+radius*Math.cos(mas_angles[G]*Math.PI/180);
+		Y2=YC+radius*Math.sin(mas_angles[G]*Math.PI/180);
+		var segment = document.createElementNS(_NS, "path");
+		segment.setAttribute("d","M "+XC+","+YC+" L "+X1+","+Y1+" A "+radius+","+radius+" "+" 0 ")
+		if(mas_angles[G]<=180) segment.setAttribute("d",segment.getAttribute("d")+"0");
+		else segment.setAttribute("d",segment.getAttribute("d")+"1");
+		segment.setAttribute("d",segment.getAttribute("d")+" 1 "+X2+","+Y2+" L "+XC+","+YC)
+		segment.setAttribute("fill", colors[G]);
+		pie.appendChild(segment);
+	}
+	mas_angles[0]=mas_angles[0]/2;
+	if(sign_space==2){
+		var path_signs=document.getElementById("path_signs_");
+		var txt=document.getElementById("txt_");
+		var sign, pth;
+		for(i=0;i<data_quantity;i++){
+			sign = document.getElementById("sign_"+i);
+			if (sign!=null) txt.removeChild(sign);
+			pth = document.getElementById("pth_"+i);
+			if (pth!=null) path_signs.removeChild(pth);
+		}
+		var wid_text;
+		var koef2=1.5, first_time=1;
+		for (var G=0;G<data_quantity;G++){
+			X1=XC+0.8*radius*Math.cos(mas_angles_sign[G]*Math.PI/180);
+			Y1=YC+0.8*radius*Math.sin(mas_angles_sign[G]*Math.PI/180);
+			X2=XC+koef2*radius*Math.cos(mas_angles_sign[G]*Math.PI/180);
+			Y2=YC+koef2*radius*Math.sin(mas_angles_sign[G]*Math.PI/180);
+			var segment = document.createElementNS(_NS, "path");
+			segment.setAttribute("id",("pth_")+G);
+			segment.setAttribute("d","M "+X1+","+Y1+" L "+X2+","+Y2);
+			var carryover,pm;
+			if(X2>X1){
+				carryover=0;
+				pm=1;
+			}
+			else {
+				carryover=1;
+				pm=-1;
+			}
+			wid_text=create_text(signs[G],X2,(Y2-height*0.005),carryover,"sign_"+G);
+			segment.setAttribute("d",segment.getAttribute("d")+" L "+(X2+wid_text*pm)+","+Y2);
+			segment.setAttribute("stroke", stroke_color);
+			segment.setAttribute("fill", "none");
+			segment.setAttribute("stroke-width", stroke_width/4);
+			path_signs.appendChild(segment);
+		}
+	}
+ }
+ 
+ ]]>
+ </script>  
+	<linearGradient id="linear-gradient"> </linearGradient>
+	<rect id="border" fill="url(#linear-gradient)"/>
+	<path id="background_" fill="#f9f9f9"  stroke="none" d="" />
+	<circle id="circle_" fill="black"  stroke="none" />
+	<g id="pie_"/>
+	<g id="signs_"/>;
+	<g id="path_signs_"/>;
+	<text id="txt_" fill="#444444" font-size="1" font-family="'Calibri Light',normal" > </text>
+	<circle id="stroke_" fill="none"  stroke="black" />
+ </svg>	

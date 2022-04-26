@@ -211,11 +211,14 @@ img {
   white-space:nowrap;
 }
 
-.running_graf{
+object{
   width: 100%;
   height: auto;
 }
 
+iframe {
+  background-color: aliceblue;
+}
 
 @media screen and (max-width: 710px) {
   .heading, .subheading {
