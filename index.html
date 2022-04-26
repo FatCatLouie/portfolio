@@ -68,9 +68,9 @@
       <div class="container">
         <h2 class="subheading">Мои работы</h2>
           <figure class="project">
-            <object type="image/svg+xml" data="projects/running_graph.svg" id="str" width="1024" height="1024" ></object>
+            <object type="image/svg+xml" data="projects/running_graph.svg" id="str" class="running_graf" ></object>
             <script>
-              var stepTime=800;
+              var stepTime=500;
               var graf={
                 params:{	
                   max:100,  //точное значение
@@ -106,7 +106,7 @@
                 var I={data:50};	
                 var tm=new Date();		
                 function new_t(){
-                  I.data+=((Math.random()-0.5)*20);
+                  I.data+=((Math.random()-0.5)*30);
                   tm.setTime(tm.getTime()+stepTime);		
                   I.DateTime=tm;
                   if(graf.view!==undefined){
