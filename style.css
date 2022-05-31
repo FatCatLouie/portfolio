@@ -214,6 +214,27 @@ iframe {
   background-color: aliceblue;
 }
 
+
+.skills header{
+  display:flex;
+  justify-content: space-between;
+}
+
+.skills button{
+  background-color: #712073;
+  border: none;
+  border-radius: 2px;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+
+
+
 @media screen and (max-width: 710px) {
   .heading, .subheading {
     font-size: 50px;
@@ -221,6 +242,20 @@ iframe {
   .intro h3,
   .portfolio h3  {
     font-size: 24px;
+  }
+}
+@media screen and (max-width: 560px) {
+  .skills header {
+    flex-direction: column;
+  }
+  .skills header div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom:20px;
+  }
+  .skills header div button, span{
+    max-width: 150px;
+    margin-bottom:12px;
   }
 }
 
@@ -235,4 +270,5 @@ iframe {
   .portfolio h3  {
     font-size: 20px;
   }
+
 }

@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@600&display=swap" rel="stylesheet">
     <title>Портфолио студента МФ МГТУ</title>
-    <script type="text/javascript" src="projects/pribor.js"></script>
+    <script async type="text/javascript" src="projects/pribor.js"></script>
+    <script defer src="script.js"></script>
   </head>
 
   <body>
@@ -51,7 +52,14 @@
           Например, последнее из&nbsp;моих дел&nbsp;&mdash; разработка демонстрационного приложения, скоро я&nbsp;буду проводить презентацию новой идеи для будущего медицинского аппарата.
         </p>
         <div class="skills">
-          <h3>Мои навыки</h3>
+          <header>
+            <h3>Мои навыки</h3>
+            <div>
+              <span>Сортировать</span>
+              <button data-mode="l">По уровню</button>
+              <button data-mode="n">По алфавиту</button>
+            </div>
+          </header>
           <dl class="skills-list"></dl>
         </div>
       </div>
@@ -84,6 +92,5 @@
         <a href="tel:+79040384190" class="footer-phone">+7 904 038-41-90</a>
       </div>
     </footer>
-    <script src="script.js"></script>
   </body>
 </html>

@@ -1,36 +1,75 @@
 'use strict';
-let skills = [{
-    name: 'HTML',
-    lvl: 70,
-    class: 'skill-html'
-},{
-    name: 'CSS',
-    lvl: 70,
-    class: 'skill-css'
-},{
-    name: 'C++',
-    lvl: 60,
-    class: 'skill-cpp'
-},{
-    name: 'Python',
-    lvl: 90,
-    class: 'skill-python'}]
+const skills = {
+    data: [
+        {
+            name: 'HTML',
+            lvl: 40,
+            class: 'skill-html'
+        },
+        {
+            name: 'CSS',
+            lvl: 30,
+            class: 'skill-css'
+        },
+        {
+            name: 'C++',
+            lvl: 60,
+            class: 'skill-cpp'
+        },
+        {
+            name: 'Python',
+            lvl: 90,
+            class: 'skill-python'}
+    ],
+    generateList: function () {
+        skillList.innerHTML = '';
+        this.data.forEach(item=>{
+            let dt = document.createElement('dt');
+            let dd = document.createElement('dd');
+            let div = document.createElement('div');
+            dt.classList.add(item.class);
+            dd.classList.add('level');
+            dt.textContent=item.name;
+            dd.textContent=`${item.lvl}%`;
+            div.style.width = `${item.lvl}%`;
+            dd.append(div);
+            skillList.append(dt);
+            skillList.append(dd);
+        });
+    }
+}
 
-let skillList = document.querySelector('.skills-list');
+const skillList = document.querySelector('.skills-list'),
+    buttons = document.querySelector('.skills div');
+let sort = true;
+let tag = 'name';
 
-skills.forEach((item)=>{
-    let dt = document.createElement('dt');
-    let dd = document.createElement('dd');
-    let div = document.createElement('div');
-    dt.classList.add(item.class);
-    dd.classList.add('level');
-    dt.textContent=item.name;
-    dd.textContent=`${item.lvl}%`;
-    div.style.width = `${item.lvl}%`;
-    dd.append(div);
-    skillList.append(dt);
-    skillList.append(dd);
-});
+
+skills.generateList();
+
+buttons.addEventListener('click', e =>{
+    if (e.target.tagName=='BUTTON') {
+        if (e.target.dataset.mode=='l') tag = 'lvl';
+        else tag = 'name';
+        if (sort) skills.data.sort(sorting);
+        else skills.data.sort(sortingRev);
+        sort = !sort;
+        skills.generateList();
+    }
+})
+
+function sorting(a, b) {
+    if (a[tag]<b[tag]) return -1;
+    if (a[tag]>b[tag]) return 1;
+    return 0;
+}
+function sortingRev(a, b) {
+    if (a[tag]<b[tag]) return 1;
+    if (a[tag]>b[tag]) return -1;
+    return 0;
+}
+
+
 
 
 
