@@ -232,6 +232,14 @@ iframe {
   font-size: 16px;
 }
 
+.skills button:hover{
+  background-color: #902892;
+  cursor: pointer;
+}
+
+.skills button:active{
+  background-color: #b233b4;
+}
 
 
 
@@ -253,7 +261,7 @@ iframe {
     flex-direction: column;
     margin-bottom:20px;
   }
-  .skills header div button, span{
+  .skills header button, span{
     max-width: 150px;
     margin-bottom:12px;
   }

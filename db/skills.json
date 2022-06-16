@@ -1,0 +1,22 @@
+[
+    {
+        "name": "HTML",
+        "lvl": "40",
+        "class": "skill-html"
+    },
+    {
+        "name": "CSS",
+        "lvl": "30",
+        "class": "skill-css"
+    },
+    {
+        "name": "C++",
+        "lvl": "60",
+        "class": "skill-cpp"
+    },
+    {
+        "name": "Python",
+        "lvl": "90",
+        "class": "skill-python"
+    }
+]

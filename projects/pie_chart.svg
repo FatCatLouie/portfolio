@@ -47,16 +47,16 @@
 		XC=width/2;
 	}
 	stroke_width=params.stroke_width*radius;
-	YC=height*0.55;
+	YC=(height*0.55);
 	
 	var frameColor=this.document.getElementById("linear-gradient");
 	var border=document.getElementById("border");
 	background = document.getElementById("background_");
 	background.setAttribute("fill", params.background_color);
-	background.setAttribute("d","M "+otstup+","+(otstup+round)+" A "+round+","+round+" 0,0,1 "+(round+otstup)+","+otstup+" L"+(width-otstup-round)+
-			","+otstup+" A "+round+","+round+" 0,0,1 "+(width-otstup)+","+(round+otstup)+" L"+(width-otstup)+","+
-			(height-otstup-round)+"A "+round+","+round+" 0,0,1 "+(width-otstup-round)+","+(height-otstup)+"L "+(round+otstup)
-			+","+(height-otstup)+"A "+round+","+round+" 0,0,1 "+otstup+","+(height-otstup-round)+"L "+otstup+","+round);
+	background.setAttribute("d","M "+otstup+","+(otstup+round)+" A "+round+" "+round+" 0,0,1 "+(round+otstup)+","+otstup+" L"+(width-otstup-round)+
+			","+otstup+" A "+round+" "+round+" 0,0,1 "+(width-otstup)+","+(round+otstup)+" L"+(width-otstup)+","+
+			(height-otstup-round)+"A "+round+" "+round+" 0,0,1 "+(width-otstup-round)+","+(height-otstup)+"L "+(round+otstup)
+			+","+(height-otstup)+"A "+round+" "+round+" 0,0,1 "+otstup+","+(height-otstup-round)+"L "+otstup+","+round);
 	for (var i=0, length=params.ramka.length;i<length;i++){
 		var stop = document.createElementNS(_NS, "stop");
 		stop.setAttribute('offset', params.ramka[i].offset);
@@ -149,6 +149,13 @@
 }
  
  function work(data){
+	var pie=document.getElementById("pie_");
+	const segmentList = document.querySelectorAll('.segment');
+	segmentList.forEach(segment=>{
+        pie.removeChild(segment);
+    });
+
+
 	var mas_angles=[];
 	var mas_angles_sign=[];
 	var i,s=0;
@@ -161,7 +168,6 @@
 		mas_angles[i]=mas_angles[i-1]+((data["data"+(i+1)])/s*360);
 		mas_angles_sign[i]=mas_angles[i-1]+((data["data"+(i+1)])/s*360/2);
 	}
-	var pie=document.getElementById("pie_");
 	var X1,Y1,X2,Y2;
 	X1=XC+radius;
 	Y1 = YC;
@@ -169,11 +175,12 @@
 		X2=XC+radius*Math.cos(mas_angles[G]*Math.PI/180);
 		Y2=YC+radius*Math.sin(mas_angles[G]*Math.PI/180);
 		var segment = document.createElementNS(_NS, "path");
-		segment.setAttribute("d","M "+XC+","+YC+" L "+X1+","+Y1+" A "+radius+","+radius+" "+" 0 ")
+		segment.setAttribute("d","M "+XC+","+YC+" L "+X1+","+Y1+" A "+radius+" "+radius+" "+"0 ");
 		if(mas_angles[G]<=180) segment.setAttribute("d",segment.getAttribute("d")+"0");
-		else segment.setAttribute("d",segment.getAttribute("d")+"1");
-		segment.setAttribute("d",segment.getAttribute("d")+" 1 "+X2+","+Y2+" L "+XC+","+YC)
+		else segment.setAttribute("d",segment.getAttribute("d")+'1');
+		segment.setAttribute("d",segment.getAttribute("d")+" 1 "+X2+","+Y2+" L "+XC+" "+YC);
 		segment.setAttribute("fill", colors[G]);
+		segment.setAttribute("class", "segment");
 		pie.appendChild(segment);
 	}
 	mas_angles[0]=mas_angles[0]/2;

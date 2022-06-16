@@ -1,43 +1,13 @@
 'use strict';
-const skills = {
-    data: [
-        {
-            name: 'HTML',
-            lvl: 40,
-            class: 'skill-html'
-        },
-        {
-            name: 'CSS',
-            lvl: 30,
-            class: 'skill-css'
-        },
-        {
-            name: 'C++',
-            lvl: 60,
-            class: 'skill-cpp'
-        },
-        {
-            name: 'Python',
-            lvl: 90,
-            class: 'skill-python'}
-    ],
-    generateList: function () {
-        skillList.innerHTML = '';
-        this.data.forEach(item=>{
-            let dt = document.createElement('dt');
-            let dd = document.createElement('dd');
-            let div = document.createElement('div');
-            dt.classList.add(item.class);
-            dd.classList.add('level');
-            dt.textContent=item.name;
-            dd.textContent=`${item.lvl}%`;
-            div.style.width = `${item.lvl}%`;
-            dd.append(div);
-            skillList.append(dt);
-            skillList.append(dd);
-        });
-    }
-}
+
+let json_data;
+fetch('db/skills.json')
+    .then(data => data.json())
+    .then (json => {
+        json_data = json;
+        generateList(json_data);
+    })
+    .catch( error => console.error(error));
 
 const skillList = document.querySelector('.skills-list'),
     buttons = document.querySelector('.skills div');
@@ -45,16 +15,14 @@ let sort = true;
 let tag = 'name';
 
 
-skills.generateList();
-
 buttons.addEventListener('click', e =>{
     if (e.target.tagName=='BUTTON') {
         if (e.target.dataset.mode=='l') tag = 'lvl';
         else tag = 'name';
-        if (sort) skills.data.sort(sorting);
-        else skills.data.sort(sortingRev);
+        if (sort) json_data.sort(sorting);
+        else json_data.sort(sortingRev);
         sort = !sort;
-        skills.generateList();
+        generateList(json_data);
     }
 })
 
@@ -67,6 +35,23 @@ function sortingRev(a, b) {
     if (a[tag]<b[tag]) return 1;
     if (a[tag]>b[tag]) return -1;
     return 0;
+}
+
+function generateList(data){
+    skillList.innerHTML = '';
+    data.forEach(item=>{
+        let dt = document.createElement('dt');
+        let dd = document.createElement('dd');
+        let div = document.createElement('div');
+        dt.classList.add(item.class);
+        dd.classList.add('level');
+        dt.textContent=item.name;
+        dd.textContent=`${item.lvl}%`;
+        div.style.width = `${item.lvl}%`;
+        dd.append(div);
+        skillList.append(dt);
+        skillList.append(dd);
+    });
 }
 
 
