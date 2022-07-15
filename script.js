@@ -1,6 +1,6 @@
 'use strict';
 
-let json_data;
+/*let json_data;
 fetch('db/skills.json')
     .then(data => data.json())
     .then (json => {
@@ -52,7 +52,7 @@ function generateList(data){
         skillList.append(dt);
         skillList.append(dd);
     });
-}
+}*/
 
 
 
