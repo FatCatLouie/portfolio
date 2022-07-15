@@ -241,6 +241,9 @@ iframe {
   background-color: #b233b4;
 }
 
+.ps{
+	color: #260c26;
+}
 
 
 @media screen and (max-width: 710px) {
